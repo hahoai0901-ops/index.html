@@ -1,475 +1,716 @@
-
- 
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hành Trình Tự Do - Lịch Sử 9 Bài 6</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Hành Trình Cứu Nước - Lịch Sử 9 Bài 6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-red: #da251d;
-            --gold-yellow: #ffde00;
-            --accent-blue: #2563eb;
-            --success-green: #16a34a;
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #f1f5f9; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-red), #990000);
-            color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100;
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .header-title { font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        .user-stats { display: flex; gap: 12px; align-items: center; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
-
-        .screen { display: none; padding: 20px; max-width: 900px; margin: 0 auto; width: 100%; flex: 1; }
-        .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Login Screen */
-        .welcome-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; margin-top: 20px; }
-        .welcome-card h2 { color: var(--primary-red); margin-bottom: 10px; font-size: 1.5rem; }
-        .form-group input { padding: 12px 20px; width: 85%; max-width: 320px; border: 2px solid #cbd5e1; border-radius: 25px; font-size: 1rem; outline: none; margin: 15px 0; text-align: center; }
-        .form-group input:focus { border-color: var(--primary-red); }
-        
-        .avatar-selector { display: flex; justify-content: center; gap: 15px; margin: 15px 0; }
-        .avatar-btn {
-            width: 70px; height: 70px; border-radius: 50%; border: 3px solid #e2e8f0;
-            cursor: pointer; font-size: 2rem; background: #f8fafc; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; outline: none;
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
         }
-        .avatar-btn.selected { border-color: var(--primary-red); background: #fee2e2; transform: scale(1.15); box-shadow: 0 4px 10px rgba(218, 37, 29, 0.2); }
-        
-        .btn-start { background: var(--primary-red); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-        .btn-start:hover { background: #b31b14; }
 
-        /* Map Screen */
-        .map-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .map-node { display: flex; align-items: center; gap: 15px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: 0.2s; border-left: 5px solid #cbd5e1; }
-        .map-node:hover:not(.locked) { transform: translateX(5px); }
-        .map-node.locked { opacity: 0.6; cursor: not-allowed; background: #f8fafc; }
-        .map-node.completed { border-left-color: var(--success-green); }
-        .map-node.unlocked { border-left-color: var(--accent-blue); }
-        .node-icon { width: 45px; height: 45px; border-radius: 50%; background: #fee2e2; color: var(--primary-red); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .screen.active {
+            display: block;
+        }
 
-        /* Detail Screen */
-        .location-header { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .audio-btn { background: var(--accent-blue); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 6px; }
-        .knowledge-box { background: #fefce8; border-left: 4px solid #eab308; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 0.95rem; line-height: 1.6; }
-        .mission-box { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Interactive Elements */
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
-        .option-btn { background: #f8fafc; border: 2px solid #e2e8f0; padding: 12px; border-radius: 8px; text-align: left; cursor: pointer; font-size: 0.95rem; }
-        .option-btn:hover { background: #eff6ff; border-color: #93c5fd; }
-        
-        .sort-item { display: flex; align-items: center; justify-content: space-between; background: #f1f5f9; padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #cbd5e1; }
-        .sort-btn { background: #e2e8f0; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+        .map-bg {
+            background-color: #1e293b;
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
 
-        .hint-box { margin-top: 15px; padding: 12px; background: #fee2e2; color: #991b1b; border-radius: 8px; display: none; font-size: 0.9rem; }
-        .btn-action { background: var(--success-green); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
-        .btn-back { background: #64748b; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        /* Certificate Screen */
-        .certificate-card { background: white; border: 6px double var(--gold-yellow); padding: 25px; border-radius: 16px; text-align: center; }
-        .badge-icon { font-size: 3.5rem; color: var(--gold-yellow); margin: 10px 0; }
+        .pulse-gold {
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            animation: pulse-gold 2s infinite;
+        }
 
-        .feedback-pop { position: fixed; top: 15px; right: 15px; padding: 12px 20px; border-radius: 8px; color: white; font-weight: bold; z-index: 1000; display: none; }
-        .feedback-pop.success { background: var(--success-green); }
-        .feedback-pop.error { background: #ef4444; }
-
-        @media (min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
-    <header>
-        <div class="header-title"><i class="fa-solid fa-compass"></i> HÀNH TRÌNH TỰ DO (1918 - 1930)</div>
-        <div class="user-stats">
-            <span id="nav-username">---</span>
-            <span><i class="fa-solid fa-star" style="color: var(--gold-yellow);"></i> <span id="user-xp">0</span> XP</span>
+    <!-- Header / Status Bar -->
+    <header id="statusBar" class="hidden sticky top-0 z-50 glass-card border-b border-slate-700/50 px-4 py-3 shadow-lg">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span id="displayAvatar" class="text-3xl bg-slate-800 p-1.5 rounded-full border border-slate-600">👦</span>
+                <div>
+                    <h2 id="displayName" class="font-bold text-amber-400 leading-tight">Học sinh</h2>
+                    <span class="text-xs text-slate-400">Nhà khám phá Lịch sử</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                    <span class="text-amber-400 font-extrabold">⭐</span>
+                    <span id="xpDisplay" class="font-bold text-amber-400 text-sm">0</span>
+                    <span class="text-xs text-slate-400">XP</span>
+                </div>
+                <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                    <span class="text-amber-500 text-sm">🔑</span>
+                    <span id="keysDisplay" class="font-bold text-slate-200 text-sm">0/4</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div id="feedback" class="feedback-pop"></div>
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 flex-grow flex items-center justify-center">
 
-    <!-- MÀN 1: ĐĂNG NHẬP -->
-    <div id="screen-login" class="screen active">
-        <div class="welcome-card">
-            <h2><i class="fa-solid fa-flag"></i> KHÁM PHÁ LỊCH SỬ LỚP 9</h2>
-            <p>Bài 6: Hoạt động của Nguyễn Ái Quốc & Sự thành lập Đảng Cộng sản Việt Nam</p>
-            <div class="form-group">
-                <input type="text" id="username-input" placeholder="Nhập tên học sinh..." value="Hà Thị Hoài">
-            </div>
-            <p style="font-weight: bold; font-size: 0.9rem;">Chọn nhân vật đại diện:</p>
-            <div class="avatar-selector">
-                <button type="button" class="avatar-btn selected" onclick="chooseAvatar(this, '👩‍🎓')">👩‍🎓</button>
-                <button type="button" class="avatar-btn" onclick="chooseAvatar(this, '👨‍🎓')">👨‍🎓</button>
-                <button type="button" class="avatar-btn" onclick="chooseAvatar(this, '🕵️')">🕵️</button>
-            </div>
-            <button type="button" class="btn-start" onclick="startGame()">BẮT ĐẦU HÀNH TRÌNH <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-    </div>
+        <!-- SCREEN 1: Welcome & Setup -->
+        <section id="screenWelcome" class="screen active w-full">
+            <div class="glass-card rounded-2xl p-6 md:p-8 text-center border-2 border-amber-500/30 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 pointer-events-none">🇻🇳</div>
+                <div class="inline-block p-3 bg-amber-500/10 rounded-full border border-amber-500/30 mb-4">
+                    <span class="text-4xl">🗺️</span>
+                </div>
+                <h1 class="text-2xl md:text-4xl font-extrabold text-amber-400 mb-2">HÀNH TRÌNH TÌM ĐƯỜNG CỨU NƯỚC</h1>
+                <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto mb-6">
+                    Khám phá Lịch sử 9 - Bài 6: Hoạt động của Nguyễn Ái Quốc & Sự thành lập Đảng Cộng sản Việt Nam (1918 - 1930).
+                </p>
 
-    <!-- MÀN 2: BẢN ĐỒ -->
-    <div id="screen-map" class="screen">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h3>Bản Đồ Địa Điểm Lịch Sử</h3>
-            <button class="btn-back" onclick="showScreen('screen-login')">Đổi Tên</button>
-        </div>
-        <div class="map-container" id="map-nodes-container"></div>
-    </div>
+                <div class="space-y-6 max-w-md mx-auto text-left">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Tên nhà khám phá trẻ:</label>
+                        <input type="text" id="studentName" placeholder="Nhập tên của bạn..." value="Nam" 
+                            class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-amber-300 placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+                    </div>
 
-    <!-- MÀN 3: CHI TIẾT & NHIỆM VỤ -->
-    <div id="screen-location" class="screen">
-        <button class="btn-back" onclick="goBackToMap()" style="margin-bottom: 10px;"><i class="fa-solid fa-arrow-left"></i> Trở về bản đồ</button>
-        <div class="location-header">
-            <div>
-                <h3 id="loc-title">Tên Địa Điểm</h3>
-                <p id="loc-subtitle" style="color: #64748b; font-size: 0.85rem;"></p>
-            </div>
-            <button class="audio-btn" onclick="speakText()"><i class="fa-solid fa-volume-high"></i> NGHE ĐỌC</button>
-        </div>
-        <div class="knowledge-box">
-            <h4 style="color: #b45309; margin-bottom: 5px;"><i class="fa-solid fa-book-open"></i> Tư Liệu Kiến Thức SGK:</h4>
-            <p id="loc-knowledge"></p>
-        </div>
-        <div class="mission-box">
-            <h4 style="color: var(--primary-red); margin-bottom: 8px;"><i class="fa-solid fa-gamepad"></i> Nhiệm Vụ: <span id="loc-mission-type"></span></h4>
-            <p id="mission-instruction" style="font-size: 0.95rem; margin-bottom: 12px;"></p>
-            <div id="mission-interactive-area"></div>
-            <div id="hint-box" class="hint-box"><i class="fa-solid fa-lightbulb"></i> <strong>Gợi ý:</strong> <span id="hint-text"></span></div>
-        </div>
-    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Chọn nhân vật đại diện:</label>
+                        <div class="grid grid-cols-4 gap-3">
+                            <button type="button" onclick="selectAvatar('👦', this)" class="avatar-opt active bg-slate-800 p-3 rounded-xl text-3xl border-2 border-amber-500 transition hover:scale-105">👦</button>
+                            <button type="button" onclick="selectAvatar('👧', this)" class="avatar-opt bg-slate-800 p-3 rounded-xl text-3xl border-2 border-transparent transition hover:scale-105">👧</button>
+                            <button type="button" onclick="selectAvatar('🧑‍🎓', this)" class="avatar-opt bg-slate-800 p-3 rounded-xl text-3xl border-2 border-transparent transition hover:scale-105">🧑‍🎓</button>
+                            <button type="button" onclick="selectAvatar('🕵️', this)" class="avatar-opt bg-slate-800 p-3 rounded-xl text-3xl border-2 border-transparent transition hover:scale-105">🕵️</button>
+                        </div>
+                    </div>
 
-    <!-- MÀN 4: BOSS & TỔNG KẾT -->
-    <div id="screen-boss-result" class="screen">
-        <div class="certificate-card">
-            <h2>🏆 CHÚC MỪNG HOÀN THÀNH HÀNH TRÌNH!</h2>
-            <div class="badge-icon"><i class="fa-solid fa-award"></i></div>
-            <p>Nhà Khám Phá Lịch Sử Xuất Sắc:</p>
-            <h3 id="final-username" style="color: var(--primary-red); font-size: 1.6rem; margin: 5px 0;">---</h3>
-            <p>Tổng số điểm đạt được: <strong id="final-xp" style="color: var(--primary-red); font-size: 1.4rem;">0</strong> XP</p>
-            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin: 15px 0; text-align: left; font-size: 0.9rem; line-height: 1.5;">
-                <p>🏅 <strong>Danh hiệu:</strong> Bậc Thầy Lịch Sử Khái Quát (Bài 6 - Lớp 9)</p>
-                <p>✅ Đã nắm vững hành trình tìm đường cứu nước của Nguyễn Ái Quốc (1918 - 1930).</p>
-                <p>✅ Hiểu rõ ý nghĩa lịch sử của việc thành lập Đảng Cộng sản Việt Nam (2/1930).</p>
+                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-amber-500/20 transition transform active:scale-95 flex items-center justify-center space-x-2 text-lg">
+                        <span>BẮT ĐẦU HÀNH TRÌNH</span>
+                        <i class="fa-solid font-bold fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
-            <button class="btn-start" onclick="resetGame()">CHƠI LẠI TỪ ĐẦU</button>
-        </div>
-    </div>
+        </section>
+
+        <!-- SCREEN 2: World Map -->
+        <section id="screenMap" class="screen w-full">
+            <div class="text-center mb-6">
+                <h2 class="text-xl md:text-2xl font-bold text-amber-400">🗺️ BẢN ĐỒ LỊCH SỬ TƯƠNG TÁC</h2>
+                <p class="text-xs md:text-sm text-slate-400">Hoàn thành nhiệm vụ từng địa điểm để thu thập chìa khóa mở BOSS CHALLENGE</p>
+            </div>
+
+            <div class="map-bg rounded-2xl p-4 md:p-6 border border-slate-700/80 shadow-2xl relative min-h-[460px] flex flex-col justify-between">
+                <!-- Location Nodes -->
+                <div class="space-y-4 relative z-10">
+                    <!-- Node 1 -->
+                    <div id="node1" onclick="openLocation(1)" class="location-card glass-card p-4 rounded-xl border-l-4 border-amber-500 cursor-pointer transition transform hover:-translate-y-1 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl bg-slate-800 p-2 rounded-lg">🇫🇷</span>
+                            <div>
+                                <h3 class="font-bold text-amber-300">1. Paris (Pháp) - 1918–1922</h3>
+                                <p class="text-xs text-slate-400">Bản Yêu sách, Luận cương Lê-nin & Báo Le Paria</p>
+                            </div>
+                        </div>
+                        <span class="status-badge px-3 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full font-semibold">Khám phá</span>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div id="node2" onclick="openLocation(2)" class="location-card glass-card p-4 rounded-xl border-l-4 border-slate-600 opacity-60 cursor-not-allowed transition flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl bg-slate-800 p-2 rounded-lg">🇷🇺</span>
+                            <div>
+                                <h3 class="font-bold text-slate-300">2. Mạc Tư Khoa (Liên Xô) - 1923–1924</h3>
+                                <p class="text-xs text-slate-400">Quốc tế Nông dân & Đại hội V Quốc tế Cộng sản</p>
+                            </div>
+                        </div>
+                        <span class="status-badge px-3 py-1 bg-slate-800 text-slate-500 text-xs rounded-full font-semibold">🔒 Khóa</span>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div id="node3" onclick="openLocation(3)" class="location-card glass-card p-4 rounded-xl border-l-4 border-slate-600 opacity-60 cursor-not-allowed transition flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl bg-slate-800 p-2 rounded-lg">🇨🇳</span>
+                            <div>
+                                <h3 class="font-bold text-slate-300">3. Quảng Châu (Trung Quốc) - 1925–1927</h3>
+                                <p class="text-xs text-slate-400">Hội VN Cách mạng Thanh niên & Báo Thanh niên</p>
+                            </div>
+                        </div>
+                        <span class="status-badge px-3 py-1 bg-slate-800 text-slate-500 text-xs rounded-full font-semibold">🔒 Khóa</span>
+                    </div>
+
+                    <!-- Node 4 -->
+                    <div id="node4" onclick="openLocation(4)" class="location-card glass-card p-4 rounded-xl border-l-4 border-slate-600 opacity-60 cursor-not-allowed transition flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl bg-slate-800 p-2 rounded-lg">🇻🇳</span>
+                            <div>
+                                <h3 class="font-bold text-slate-300">4. Việt Nam - 1928–1929</h3>
+                                <p class="text-xs text-slate-400">Phong trào Vô sản hóa & 3 Tổ chức Cộng sản</p>
+                            </div>
+                        </div>
+                        <span class="status-badge px-3 py-1 bg-slate-800 text-slate-500 text-xs rounded-full font-semibold">🔒 Khóa</span>
+                    </div>
+
+                    <!-- Boss Challenge Node -->
+                    <div id="nodeBoss" onclick="openBossChallenge()" class="location-card glass-card p-4 rounded-xl border-l-4 border-purple-600 opacity-60 cursor-not-allowed transition flex items-center justify-between bg-purple-950/20">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl bg-purple-900/50 p-2 rounded-lg">🐉</span>
+                            <div>
+                                <h3 class="font-bold text-purple-300">5. BOSS CHALLENGE: Hương Cảng (1/1930)</h3>
+                                <p class="text-xs text-slate-400">Hội nghị hợp nhất thành lập Đảng Cộng sản Việt Nam</p>
+                            </div>
+                        </div>
+                        <span class="status-badge px-3 py-1 bg-purple-950 text-purple-400 text-xs rounded-full font-semibold">🔑 Cần 4 Chìa Khóa</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: Detail & Game Mission -->
+        <section id="screenLocation" class="screen w-full">
+            <button onclick="showScreen('screenMap')" class="mb-4 inline-flex items-center space-x-2 text-slate-400 hover:text-white bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-sm transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Quay lại Bản đồ</span>
+            </button>
+
+            <!-- Learning Content Card -->
+            <div class="glass-card rounded-2xl p-6 mb-6 border-l-4 border-amber-500 relative">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
+                    <h2 id="locTitle" class="text-xl md:text-2xl font-bold text-amber-400">Tên Địa Điểm</h2>
+                    <button onclick="speakContent()" class="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow transition">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Nghe audio bài học</span>
+                    </button>
+                </div>
+
+                <p id="locDescription" class="text-slate-300 text-sm leading-relaxed mb-4"></p>
+
+                <div class="border-t border-slate-700/80 pt-4">
+                    <h4 class="text-xs font-semibold uppercase tracking-wider text-amber-500 mb-2">🔍 Manh mối & Kiến thức trọng tâm:</h4>
+                    <div id="hotspotsContainer" class="flex flex-wrap gap-2 mb-3"></div>
+                    <div id="infoDisplay" class="hidden bg-slate-900/90 p-3 rounded-lg border border-amber-500/30 text-xs text-amber-200 italic"></div>
+                </div>
+            </div>
+
+            <!-- Game Mission Card -->
+            <div class="glass-card rounded-2xl p-6 border-2 border-emerald-500/30">
+                <div class="flex items-center space-x-2 mb-3">
+                    <span class="text-2xl">🎮</span>
+                    <h3 class="text-lg font-bold text-emerald-400">NHIỆM VỤ THÁCH THỨC</h3>
+                </div>
+                <p id="missionInstruction" class="text-sm text-slate-300 mb-4 font-medium"></p>
+
+                <!-- Dynamic Content Area -->
+                <div id="missionContent" class="mb-4"></div>
+
+                <!-- Feedback Area -->
+                <div id="feedbackBox" class="hidden p-3 rounded-xl mb-4 text-sm font-semibold"></div>
+
+                <div class="flex space-x-3">
+                    <button id="btnSubmitMission" onclick="checkMission()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2.5 rounded-xl shadow transition active:scale-95 text-sm">
+                        Nộp câu trả lời
+                    </button>
+                    <button id="btnNextLocation" onclick="finishLocation()" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl shadow transition active:scale-95 text-sm flex items-center space-x-2">
+                        <span>Nhận 🔑 & Mở địa điểm tiếp theo</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: Victory / Final Certificate -->
+        <section id="screenVictory" class="screen w-full">
+            <div class="glass-card rounded-2xl p-8 text-center border-2 border-amber-500 shadow-2xl relative overflow-hidden">
+                <div class="text-6xl mb-3 animate-bounce">🏆</div>
+                <h1 class="text-2xl md:text-4xl font-extrabold text-amber-400 mb-1">HOÀN THÀNH XUẤT SẮC!</h1>
+                <p class="text-slate-300 text-sm mb-6">Bạn đã chinh phục thành công hành trình Lịch sử Bài 6!</p>
+
+                <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 max-w-sm mx-auto mb-6">
+                    <div id="victoryName" class="text-xl font-bold text-amber-300 mb-1">👦 Học sinh</div>
+                    <div class="text-slate-400 text-xs mb-3">Danh hiệu: <span class="text-amber-400 font-bold">Nhà Lịch Sử Học Trẻ Tuổi</span></div>
+                    <div class="flex justify-center items-center space-x-4 border-t border-slate-800 pt-3">
+                        <div>
+                            <div class="text-xs text-slate-500">TỔNG XP</div>
+                            <div id="finalXp" class="text-2xl font-extrabold text-emerald-400">600</div>
+                        </div>
+                        <div class="border-r border-slate-800 h-8"></div>
+                        <div>
+                            <div class="text-xs text-slate-500">CHÌA KHÓA</div>
+                            <div class="text-2xl font-extrabold text-amber-400">4/4 🔑</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="restartGame()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-8 py-3 rounded-xl shadow-lg transition active:scale-95 inline-flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Chơi lại hành trình</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
 
     <script>
-        const locationsData = {
-            1: {
-                title: "1. Nước Pháp (1918 - 1923)",
-                subtitle: "Tìm thấy con đường cứu nước theo cách mạng vô sản",
-                knowledge: "• Tháng 6 năm 1919: Gửi Bản yêu sách của nhân dân An Nam tới Hội nghị Véc-xai.\n• Tháng 7 năm 1920: Đọc Sơ thảo Luận cương của Lênin về vấn đề dân tộc và thuộc địa.\n• Tháng 12 năm 1920: Bỏ phiếu tán thành gia nhập Quốc tế Cộng sản tại Đại hội Tua.\n• Năm 1921: Sáng lập Hội Liên hiệp thuộc địa; năm 1922 ra báo Người cùng khổ.",
-                missionType: "Sắp xếp mốc thời gian",
-                instruction: "Dùng nút ⬆️ ⬇️ để sắp xếp 4 sự kiện sau theo đúng thứ tự thời gian từ trước đến sau:",
-                type: "sorting",
-                items: [
-                    { id: 2, text: "Đọc Sơ thảo Luận cương của Lênin về vấn đề dân tộc và thuộc địa (Tháng 7/1920)" },
-                    { id: 1, text: "Gửi Bản yêu sách của nhân dân An Nam tới Hội nghị Véc-xai (Tháng 6/1919)" },
-                    { id: 4, text: "Sáng lập Hội Liên hiệp thuộc địa (Năm 1921)" },
-                    { id: 3, text: "Bỏ phiếu tán thành gia nhập Quốc tế Cộng sản tại Đại hội Tua (Tháng 12/1920)" }
-                ],
-                correctOrder: [1, 2, 3, 4],
-                hint: "Mốc thời gian đúng: 6/1919 -> 7/1920 -> 12/1920 -> Năm 1921.",
-                xp: 150
+        // Web Audio API Sound Synthesizer Engine
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
             },
-            2: {
-                title: "2. Liên Xô (1923 - 1924)",
-                subtitle: "Nghiên cứu lý luận và hoạt động trong phong trào Quốc tế Cộng sản",
-                knowledge: "• Tháng 10 năm 1923: Dự Hội nghị Quốc tế Nông dân và được bầu vào Ban Chấp hành.\n• Tháng 6 năm 1924: Trình bày tham luận tại Đại hội lần thứ 5 của Quốc tế Cộng sản.\n• Viết bài cho báo Sự thật, tạp chí Thư ký quốc tế.",
-                missionType: "Trắc nghiệm kiến thức",
-                instruction: "Nguyễn Ái Quốc dự Hội nghị Quốc tế Nông dân và được bầu vào Ban Chấp hành vào thời gian nào?",
-                type: "quiz",
-                options: ["Tháng 6/1919", "Tháng 10/1923", "Tháng 6/1924", "Tháng 12/1920"],
-                correctIndex: 1,
-                hint: "Sự kiện diễn ra vào cuối năm 1923 sau khi Người đến Liên Xô.",
-                xp: 150
+            playCorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
             },
-            3: {
-                title: "3. Quảng Châu - Trung Quốc (1924 - 1927)",
-                subtitle: "Chuẩn bị về tổ chức và cán bộ cho sự thành lập Đảng",
-                knowledge: "• Tháng 6 năm 1925: Thành lập Hội Việt Nam Cách mạng Thanh niên, xuất bản báo Thanh niên.\n• Mở các lớp huấn luyện chính trị đào tạo cán bộ.\n• Đầu năm 1927: Xuất bản tác phẩm Đường Kách mệnh.",
-                missionType: "Nối cặp tương ứng",
-                instruction: "Chọn sự kiện ở Cột A ghép nối đúng với Nội dung ở Cột B:",
-                type: "quiz",
-                options: [
-                    "Thành lập Hội VN Cách mạng Thanh niên (6/1925) & Xuất bản Đường Kách mệnh (1927)",
-                    "Thành lập Đảng Cộng sản Pháp (12/1920)",
-                    "Gửi Bản yêu sách An Nam (6/1919)"
-                ],
-                correctIndex: 0,
-                hint: "Hội VN Cách mạng Thanh niên thành lập tháng 6/1925 tại Quảng Châu.",
-                xp: 150
+            playIncorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(180, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
             },
-            4: {
-                title: "4. Việt Nam (1929) - 3 Tổ Chức Cộng Sản",
-                subtitle: "Sự ra đời của 3 tổ chức cộng sản năm 1929",
-                knowledge: "• Tháng 6 năm 1929: Đông Dương Cộng sản đảng tại Bắc Kỳ.\n• Tháng 8 năm 1929: An Nam Cộng sản đảng tại Nam Kỳ.\n• Tháng 9 năm 1929: Đông Dương Cộng sản liên đoàn tại Trung Kỳ.",
-                missionType: "Trắc nghiệm địa bàn",
-                instruction: "Hãy xác định đúng 3 tổ chức cộng sản ra đời năm 1929 theo thứ tự địa bàn Bắc Kỳ, Nam Kỳ, Trung Kỳ:",
-                type: "quiz",
-                options: [
-                    "Đông Dương Cộng sản đảng, An Nam Cộng sản đảng, Đông Dương Cộng sản liên đoàn",
-                    "An Nam Cộng sản đảng, Đông Dương Cộng sản đảng, Đông Dương Cộng sản liên đoàn",
-                    "Chỉ có 1 tổ chức duy nhất ở Hà Nội"
-                ],
-                correctIndex: 0,
-                hint: "Bắc Kỳ: Đông Dương CSĐ; Nam Kỳ: An Nam CSĐ; Trung Kỳ: Đông Dương CS Liên đoàn.",
-                xp: 150
-            },
-            'boss': {
-                title: "5. HƯƠNG CẢNG (Tháng 2 năm 1930)",
-                subtitle: "Hội nghị hợp nhất thành lập Đảng Cộng sản Việt Nam",
-                knowledge: "• Hoàn cảnh: 3 tổ chức cộng sản năm 1929 hoạt động riêng rẽ. Nguyễn Ái Quốc chủ trì Hội nghị hợp nhất tại Hương Cảng từ ngày 6 tháng 1 năm 1930.\n• Kết quả: Nhất trí hợp nhất thành Đảng Cộng sản Việt Nam. Thông qua Chánh cương tắt, Sách lược tắt.\n• Ý nghĩa: Chấm dứt thời kỳ khủng hoảng đường lối lãnh đạo cách mạng Việt Nam.",
-                missionType: "Thử Thách Cuối Cùng",
-                instruction: "Hội nghị hợp nhất thành lập Đảng do ai chủ trì và diễn ra từ thời gian nào?",
-                type: "quiz",
-                options: [
-                    "Nguyễn Ái Quốc - Bắt đầu từ ngày 6/1/1930",
-                    "Trần Phú - Bắt đầu từ ngày 1/5/1930",
-                    "Lê Hồng Phong - Bắt đầu từ ngày 12/12/1929"
-                ],
-                correctIndex: 0,
-                hint: "Nguyễn Ái Quốc với tư cách phái viên Quốc tế Cộng sản đã chủ trì hội nghị bắt đầu từ ngày 6/1/1930.",
-                xp: 200
+            playVictory() {
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    const now = this.ctx.currentTime + (idx * 0.12);
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                });
             }
         };
 
-        let gameState = { username: "Hà Thị Hoài", avatar: "👩‍🎓", xp: 0, completedNodes: [], currentNode: 1 };
-        let currentSortingItems = [];
+        // State Management
+        let gameState = {
+            name: 'Nam',
+            avatar: '👦',
+            xp: 0,
+            keys: 0,
+            currentLoc: 1,
+            unlockedLoc: 1,
+            completedLocs: []
+        };
 
-        function chooseAvatar(buttonEl, avatarChar) {
-            document.querySelectorAll('.avatar-btn').forEach(btn => btn.classList.remove('selected'));
-            buttonEl.classList.add('selected');
-            gameState.avatar = avatarChar;
-        }
-
-        function playSound(type) {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.connect(gain); gain.connect(ctx.destination);
-                if (type === 'win') {
-                    osc.frequency.setValueAtTime(440, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25);
-                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
-                } else {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(200, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.25);
-                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
-                }
-                osc.start(); osc.stop(ctx.currentTime + 0.25);
-            } catch(e){}
-        }
-
-        function speakText() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const loc = locationsData[gameState.currentNode];
-                const text = loc.title + ". " + loc.knowledge;
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                // Ép trình duyệt tìm đúng giọng tiếng Việt
-                const voices = window.speechSynthesis.getVoices();
-                const viVoice = voices.find(v => v.lang.includes('vi') || v.lang.includes('VI'));
-                
-                utterance.lang = 'vi-VN';
-                if (viVoice) {
-                    utterance.voice = viVoice;
-                }
-                
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
+        // Complete Textbook Material Data
+        const locationsData = {
+            1: {
+                title: "1. Paris (Pháp) - 1918–1922",
+                summary: "Đầu năm 1919, Nguyễn Ái Quốc gia nhập Đảng Xã hội Pháp. Tháng 6/1919, Người gửi Bản Yêu sách của nhân dân An Nam tới Hội nghị Véc-xai. Tháng 7/1920, Người đọc Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa của Lê-nin. Tháng 12/1920, Người bỏ phiếu tán thành gia nhập Quốc tế Cộng sản và tham gia thành lập Đảng Cộng sản Pháp.",
+                hotspots: [
+                    { title: "📄 Bản Yêu sách (6/1919)", text: "Gửi tới Hội nghị Véc-xai đòi các quyền tự do, dân chủ tối thiểu cho nhân dân An Nam." },
+                    { title: "📖 Luận cương Lê-nin (7/1920)", text: "Mở ra đường lối giải phóng dân tộc: đi theo con đường cách mạng vô sản." },
+                    { title: "📰 Báo Le Paria (1922)", text: "Nguyễn Ái Quốc làm Chủ nhiệm kiêm chủ bút báo 'Người cùng khổ' để vạch trần chủ nghĩa thực dân." }
+                ],
+                missionInstruction: "Nhiệm vụ Sắp xếp Lịch sử: Điều chỉnh thứ tự đúng các sự kiện hoạt động tại Pháp từ trước đến sau:",
+                type: "reorder",
+                items: [
+                    { id: "s3", text: "Tháng 7/1920: Đọc Sơ thảo Luận cương của Lê-nin" },
+                    { id: "s1", text: "Đầu năm 1919: Gia nhập Đảng Xã hội Pháp" },
+                    { id: "s4", text: "Tháng 12/1920: Tham gia thành lập Đảng Cộng sản Pháp" },
+                    { id: "s2", text: "Tháng 6/1919: Gửi Bản Yêu sách của nhân dân An Nam" }
+                ],
+                correctOrder: ["s1", "s2", "s3", "s4"],
+                hint: "Gợi ý: Tiến trình thời gian chuẩn: Đầu 1919 ➔ 6/1919 ➔ 7/1920 ➔ 12/1920."
+            },
+            2: {
+                title: "2. Mạc Tư Khoa (Liên Xô) - 1923–1924",
+                summary: "Tháng 10/1923, Nguyễn Ái Quốc dự Đại hội Quốc tế Nông dân và được bầu vào Hội đồng Quốc tế Nông dân. Tháng 6/1924, Người trình bày tham luận tại Đại hội lần thứ V của Quốc tế Cộng sản. Người viết nhiều bài cho báo Sự thật, tạp chí Thư thương Quốc tế.",
+                hotspots: [
+                    { title: "🌾 Quốc tế Nông dân (10/1923)", text: "Người được bầu vào Hội đồng Quốc tế Nông dân." },
+                    { title: "🏛️ Đại hội V Quốc tế Cộng sản (6/1924)", text: "Trình bày tham luận quan trọng về chiến lược cách mạng ở các nước thuộc địa." }
+                ],
+                missionInstruction: "Nhiệm vụ Trắc nghiệm: Nguyễn Ái Quốc đã tham dự và phát biểu tham luận tại sự kiện quốc tế nào vào tháng 6/1924 tại Liên Xô?",
+                type: "mcq",
+                options: [
+                    "A. Hội nghị Véc-xai",
+                    "B. Đại hội lần thứ V của Quốc tế Cộng sản",
+                    "C. Đại hội thành lập Đảng Cộng sản Pháp",
+                    "D. Hội nghị hợp nhất các tổ chức cộng sản"
+                ],
+                correctIndex: 1,
+                hint: "Gợi ý: Đây là Đại hội lần thứ V của tổ chức cộng sản quốc tế họp tại Mạc Tư Khoa."
+            },
+            3: {
+                title: "3. Quảng Châu (Trung Quốc) - 1925–1927",
+                summary: "Từ 1925–1927, Nguyễn Ái Quốc sáng lập Hội Việt Nam Cách mạng Thanh niên (6/1925), xuất bản báo Thanh niên, mở các lớp huấn luyện chính trị đào tạo cán bộ. Tháng 7/1925, Người tham gia sáng lập Hội Liên hiệp các dân tộc bị áp bức. Đầu năm 1927, tác phẩm Đường Kách mệnh xuất bản.",
+                hotspots: [
+                    { title: "🔥 Hội VN Cách mạng Thanh niên", text: "Tổ chức tiền thân chuẩn bị cán bộ và tổ chức cho sự ra đời của Đảng." },
+                    { title: "📘 Tác phẩm Đường Kách mệnh", text: "Tập hợp các bài giảng huấn luyện cán bộ, trang bị lý luận cách mạng vô sản." }
+                ],
+                missionInstruction: "Nhiệm vụ Ghép cặp: Ghép mốc thời gian/sự kiện đúng với nội dung tương ứng tại Quảng Châu:",
+                type: "match",
+                pairs: [
+                    { q: "Tháng 6/1925", a: "Sáng lập Hội Việt Nam Cách mạng Thanh niên" },
+                    { q: "Tháng 7/1925", a: "Tham gia thành lập Hội Liên hiệp các dân tộc bị áp bức" },
+                    { q: "Đầu năm 1927", a: "Xuất bản tác phẩm Đường Kách mệnh" }
+                ],
+                hint: "Gợi ý: Tháng 6/1925 thành lập Hội Thanh niên; Tháng 7/1925 Hội LH các dân tộc bị áp bức; 1927 ra đời sách Đường Kách mệnh."
+            },
+            4: {
+                title: "4. Việt Nam - 1928–1929",
+                summary: "Những năm 1928 - 1929, phong trào 'vô sản hóa' truyền bá chủ nghĩa Mác - Lê-nin vào phong trào công nhân. Năm 1929, 3 tổ chức cộng sản ra đời: Đông Dương Cộng sản đảng (6/1929), An Nam Cộng sản đảng (8/1929), Đông Dương Cộng sản liên đoàn (9/1929).",
+                hotspots: [
+                    { title: "🛠️ Phong trào Vô sản hóa", text: "Đưa hội viên vào nhà máy, hầm mỏ rèn luyện và giác ngộ giai cấp công nhân." },
+                    { title: "🚩 Ba tổ chức cộng sản", text: "Sự bùng nổ của phong trào dẫn đến sự ra đời của 3 tổ chức cộng sản năm 1929." }
+                ],
+                missionInstruction: "Nhiệm vụ Điền từ: Chọn từ còn thiếu để hoàn thành nhận định lịch sử năm 1929:",
+                type: "fill",
+                questionText: "Tháng 6/1929, tổ chức ________ Cộng sản đảng được thành lập đầu tiên tại Bắc Kỳ.",
+                options: ["Đông Dương", "An Nam", "Nam Kỳ", "Tân Việt"],
+                correctAnswer: "Đông Dương",
+                hint: "Gợi ý: Tổ chức cộng sản đầu tiên ra đời ở Bắc Kỳ có tên là 'Đông Dương...'"
+            },
+            5: {
+                title: "5. BOSS CHALLENGE: Hương Cảng (1/1930)",
+                summary: "Sự chia rẽ của 3 tổ chức cộng sản đòi hỏi phải hợp nhất. Nguyễn Ái Quốc chủ trì Hội nghị hợp nhất tại Hương Cảng (từ 6/1/1930). Hội nghị thông qua Chính cương tắt, Sách lược tắt, Điều lệ tắt thành lập Đảng Cộng sản Việt Nam.",
+                hotspots: [
+                    { title: "🤝 Hội nghị Hợp nhất Đảng", text: "Nguyễn Ái Quốc chủ trì hợp nhất các tổ chức cộng sản riêng rẽ thành một Đảng duy nhất." },
+                    { title: "📜 Cương lĩnh chính trị đầu tiên", text: "Đã vạch ra đường lối chiến lược đúng đắn cho cách mạng Việt Nam." }
+                ],
+                missionInstruction: "NHIỆM VỤ CUỐI CÙNG: Trả lời chính xác câu hỏi tổng hợp chiến lược để chiến thắng Game!",
+                type: "mcq",
+                options: [
+                    "A. Chấm dứt thời kỳ khủng hoảng sâu sắc về đường lối và giai cấp lãnh đạo cách mạng Việt Nam",
+                    "B. Đánh đuổi ngay lập tức thực dân Pháp giành độc lập hoàn toàn năm 1930",
+                    "C. Xóa bỏ hoàn toàn chế độ phong kiến toàn Đông Dương ngay tại Hội nghị",
+                    "D. Đánh dấu lần đầu tiên Nguyễn Ái Quốc tiếp cận chủ nghĩa Mác - Lê-nin"
+                ],
+                correctIndex: 0,
+                hint: "Gợi ý: Đảng ra đời là bước ngoặt vĩ đại, 'chấm dứt thời kỳ khủng hoảng về đường lối cứu nước...'."
             }
+        };
+
+        const synth = window.speechSynthesis;
+
+        function selectAvatar(symbol, el) {
+            document.querySelectorAll('.avatar-opt').forEach(b => {
+                b.classList.remove('border-amber-500');
+                b.classList.add('border-transparent');
+            });
+            el.classList.remove('border-transparent');
+            el.classList.add('border-amber-500');
+            gameState.avatar = symbol;
         }
 
-        // Tải trước danh sách giọng đọc của trình duyệt
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+        function speakContent() {
+            if (synth.speaking) {
+                synth.cancel();
+                return;
+            }
+            const text = locationsData[gameState.currentLoc].summary;
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'vi-VN';
+            utter.rate = 0.92;
+            synth.speak(utter);
         }
 
         function showScreen(screenId) {
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if (synth.speaking) synth.cancel();
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            if (screenId === 'screen-map') renderMap();
         }
-
-        function goBackToMap() { showScreen('screen-map'); }
 
         function startGame() {
-            const input = document.getElementById('username-input').value.trim();
-            if (!input) return showFeedback("Vui lòng nhập tên học sinh!", "error");
-            gameState.username = input;
-            document.getElementById('nav-username').innerHTML = `${gameState.avatar} ${gameState.username}`;
-            updateStats(); showScreen('screen-map');
+            const nameInput = document.getElementById('studentName').value.trim();
+            if (!nameInput) {
+                alert("Vui lòng nhập tên người chơi!");
+                return;
+            }
+            gameState.name = nameInput;
+            document.getElementById('displayName').innerText = gameState.name;
+            document.getElementById('displayAvatar').innerText = gameState.avatar;
+            document.getElementById('statusBar').classList.remove('hidden');
+            updateUI();
+            showScreen('screenMap');
         }
 
-        function updateStats() { document.getElementById('user-xp').innerText = gameState.xp; }
+        function updateUI() {
+            document.getElementById('xpDisplay').innerText = gameState.xp;
+            document.getElementById('keysDisplay').innerText = `${gameState.keys}/4`;
 
-        function showFeedback(text, type) {
-            const pop = document.getElementById('feedback');
-            pop.innerText = text; pop.className = `feedback-pop ${type}`; pop.style.display = 'block';
-            setTimeout(() => { pop.style.display = 'none'; }, 2500);
-        }
-
-        function renderMap() {
-            const container = document.getElementById('map-nodes-container');
-            container.innerHTML = '';
-            const keys = [1, 2, 3, 4, 'boss'];
-            keys.forEach((key, idx) => {
-                const loc = locationsData[key];
-                const isCompleted = gameState.completedNodes.includes(key);
-                const isUnlocked = idx === 0 || gameState.completedNodes.includes(keys[idx - 1]);
-                
-                let statusClass = 'locked';
-                let iconHtml = '<i class="fa-solid fa-lock"></i>';
-                if (isCompleted) { statusClass = 'completed'; iconHtml = '<i class="fa-solid fa-check" style="color:var(--success-green)"></i>'; }
-                else if (isUnlocked) { statusClass = 'unlocked'; iconHtml = '<i class="fa-solid fa-unlock" style="color:var(--accent-blue)"></i>'; }
-
-                container.innerHTML += `
-                    <div class="map-node ${statusClass}" onclick="openLocation('${key}')">
-                        <div class="node-icon"><i class="fa-solid ${key === 'boss' ? 'fa-crown' : 'fa-location-dot'}"></i></div>
-                        <div style="flex:1;">
-                            <h4 style="font-size:1rem;">${loc.title}</h4>
-                            <p style="font-size:0.8rem; color:#64748b;">${loc.subtitle}</p>
-                        </div>
-                        <div>${iconHtml}</div>
-                    </div>
-                `;
-            });
-        }
-
-        function openLocation(nodeId) {
-            const keys = [1, 2, 3, 4, 'boss'];
-            const idx = keys.indexOf(isNaN(nodeId) ? nodeId : Number(nodeId));
-            if (idx > 0 && !gameState.completedNodes.includes(keys[idx - 1])) {
-                return showFeedback("🔐 Hãy hoàn thành địa điểm trước đó để mở khóa!", "error");
+            for (let i = 1; i <= 4; i++) {
+                const node = document.getElementById(`node${i}`);
+                const badge = node.querySelector('.status-badge');
+                if (gameState.completedLocs.includes(i)) {
+                    node.className = "location-card glass-card p-4 rounded-xl border-l-4 border-emerald-500 cursor-pointer transition transform hover:-translate-y-1 flex items-center justify-between bg-emerald-950/20";
+                    badge.className = "status-badge px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded-full font-semibold";
+                    badge.innerText = "✓ Hoàn thành";
+                } else if (i <= gameState.unlockedLoc) {
+                    node.className = "location-card glass-card p-4 rounded-xl border-l-4 border-amber-500 cursor-pointer transition transform hover:-translate-y-1 flex items-center justify-between pulse-gold";
+                    badge.className = "status-badge px-3 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full font-semibold";
+                    badge.innerText = "Khám phá";
+                } else {
+                    node.className = "location-card glass-card p-4 rounded-xl border-l-4 border-slate-600 opacity-60 cursor-not-allowed transition flex items-center justify-between";
+                    badge.className = "status-badge px-3 py-1 bg-slate-800 text-slate-500 text-xs rounded-full font-semibold";
+                    badge.innerText = "🔒 Khóa";
+                }
             }
 
-            gameState.currentNode = nodeId;
-            const loc = locationsData[nodeId];
-            document.getElementById('loc-title').innerText = loc.title;
-            document.getElementById('loc-subtitle').innerText = loc.subtitle;
-            document.getElementById('loc-knowledge').innerText = loc.knowledge;
-            document.getElementById('loc-mission-type').innerText = loc.missionType;
-            document.getElementById('mission-instruction').innerText = loc.instruction;
-            document.getElementById('hint-box').style.display = 'none';
-
-            renderMissionInteractive(loc);
-            showScreen('screen-location');
+            const bossNode = document.getElementById('nodeBoss');
+            const bossBadge = bossNode.querySelector('.status-badge');
+            if (gameState.keys >= 4) {
+                bossNode.className = "location-card glass-card p-4 rounded-xl border-l-4 border-purple-500 cursor-pointer transition transform hover:-translate-y-1 flex items-center justify-between bg-purple-900/30 pulse-gold";
+                bossBadge.className = "status-badge px-3 py-1 bg-purple-500/30 text-purple-300 text-xs rounded-full font-semibold";
+                bossBadge.innerText = "🔥 Sẵn sàng nghênh chiến";
+            }
         }
 
-        function renderMissionInteractive(loc) {
-            const container = document.getElementById('mission-interactive-area');
-            container.innerHTML = '';
+        function openLocation(locId) {
+            if (locId > gameState.unlockedLoc && !gameState.completedLocs.includes(locId)) {
+                AudioFX.playIncorrect();
+                alert("🔒 Địa điểm này chưa được mở khóa! Hãy hoàn thành nhiệm vụ ở các địa điểm trước.");
+                return;
+            }
 
-            if (loc.type === 'sorting') {
-                currentSortingItems = [...loc.items];
-                renderSortingList();
-            } else if (loc.type === 'quiz') {
-                let html = '<div class="options-grid">';
-                loc.options.forEach((opt, idx) => {
-                    html += `<button class="option-btn" onclick="checkQuizMission(${idx})">${opt}</button>`;
+            gameState.currentLoc = locId;
+            const locData = locationsData[locId];
+
+            document.getElementById('locTitle').innerText = locData.title;
+            document.getElementById('locDescription').innerText = locData.summary;
+
+            // Render Hotspots
+            const hsContainer = document.getElementById('hotspotsContainer');
+            hsContainer.innerHTML = '';
+            document.getElementById('infoDisplay').classList.add('hidden');
+
+            locData.hotspots.forEach(hs => {
+                const btn = document.createElement('button');
+                btn.className = 'bg-slate-800 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-slate-700 hover:border-amber-500/50 text-xs px-2.5 py-1.5 rounded-lg transition';
+                btn.innerText = hs.title;
+                btn.onclick = () => {
+                    const infoBox = document.getElementById('infoDisplay');
+                    infoBox.classList.remove('hidden');
+                    infoBox.innerHTML = `<strong>${hs.title}:</strong> ${hs.text}`;
+                };
+                hsContainer.appendChild(btn);
+            });
+
+            // Render Mission
+            document.getElementById('missionInstruction').innerText = locData.missionInstruction;
+            const missionContent = document.getElementById('missionContent');
+            missionContent.innerHTML = '';
+            document.getElementById('feedbackBox').classList.add('hidden');
+            document.getElementById('btnSubmitMission').classList.remove('hidden');
+            document.getElementById('btnNextLocation').classList.add('hidden');
+
+            if (locData.type === 'reorder') {
+                window.currentOrder = [...locData.items];
+                renderOrderTask();
+            } else if (locData.type === 'mcq') {
+                window.selectedMCQ = -1;
+                let html = '<div class="space-y-2">';
+                locData.options.forEach((opt, idx) => {
+                    html += `<button class="mcq-opt w-full text-left bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm transition text-slate-200" onclick="selectMCQ(${idx}, this)">${opt}</button>`;
                 });
                 html += '</div>';
-                container.innerHTML = html;
+                missionContent.innerHTML = html;
+            } else if (locData.type === 'match') {
+                let html = '<div class="space-y-3">';
+                locData.pairs.forEach((p, idx) => {
+                    html += `
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                            <span class="text-xs md:text-sm font-bold text-amber-300">${p.q}</span>
+                            <select id="match_${idx}" class="bg-slate-800 border border-slate-600 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                                <option value="">-- Chọn nội dung ghép cặp --</option>
+                                ${locData.pairs.map(item => `<option value="${item.a}">${item.a}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                missionContent.innerHTML = html;
+            } else if (locData.type === 'fill') {
+                window.selectedFill = '';
+                let html = `
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 mb-3">
+                        <p class="text-sm md:text-base text-slate-200">${locData.questionText}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                `;
+                locData.options.forEach((opt) => {
+                    html += `<button class="fill-opt bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl p-2.5 text-sm transition text-slate-200" onclick="selectFill('${opt}', this)">${opt}</button>`;
+                });
+                html += '</div>';
+                missionContent.innerHTML = html;
             }
+
+            showScreen('screenLocation');
         }
 
-        function renderSortingList() {
-            const container = document.getElementById('mission-interactive-area');
-            let html = '<div>';
-            currentSortingItems.forEach((item, index) => {
+        function renderOrderTask() {
+            const missionContent = document.getElementById('missionContent');
+            let html = '<div class="space-y-2">';
+            window.currentOrder.forEach((item, idx) => {
                 html += `
-                    <div class="sort-item">
-                        <span>${item.text}</span>
-                        <div>
-                            ${index > 0 ? `<button class="sort-btn" onclick="moveSort(${index}, -1)">⬆️</button>` : ''}
-                            ${index < currentSortingItems.length - 1 ? `<button class="sort-btn" onclick="moveSort(${index}, 1)">⬇️</button>` : ''}
+                    <div class="bg-slate-900/80 border border-slate-700 p-3 rounded-xl flex justify-between items-center text-xs md:text-sm">
+                        <span class="font-medium text-slate-200">${item.text}</span>
+                        <div class="flex space-x-1">
+                            <button onclick="moveOrder(${idx}, -1)" class="bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded border border-slate-600 text-amber-400">▲</button>
+                            <button onclick="moveOrder(${idx}, 1)" class="bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded border border-slate-600 text-amber-400">▼</button>
                         </div>
                     </div>
                 `;
             });
-            html += '<button class="btn-action" onclick="checkSortingMission()">XÁC NHẬN SẮP XẾP</button></div>';
-            container.innerHTML = html;
+            html += '</div>';
+            missionContent.innerHTML = html;
         }
 
-        function moveSort(index, direction) {
-            const target = index + direction;
-            const temp = currentSortingItems[index];
-            currentSortingItems[index] = currentSortingItems[target];
-            currentSortingItems[target] = temp;
-            renderSortingList();
+        function moveOrder(idx, dir) {
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= window.currentOrder.length) return;
+            const temp = window.currentOrder[idx];
+            window.currentOrder[idx] = window.currentOrder[newIdx];
+            window.currentOrder[newIdx] = temp;
+            renderOrderTask();
         }
 
-        function checkSortingMission() {
-            const loc = locationsData[gameState.currentNode];
-            const userOrder = currentSortingItems.map(i => i.id);
-            const isCorrect = JSON.stringify(userOrder) === JSON.stringify(loc.correctOrder);
+        function selectMCQ(idx, el) {
+            window.selectedMCQ = idx;
+            document.querySelectorAll('.mcq-opt').forEach(b => {
+                b.classList.remove('border-amber-500', 'bg-amber-500/10', 'text-amber-300');
+                b.classList.add('border-slate-700', 'bg-slate-900/80', 'text-slate-200');
+            });
+            el.classList.remove('border-slate-700', 'bg-slate-900/80', 'text-slate-200');
+            el.classList.add('border-amber-500', 'bg-amber-500/10', 'text-amber-300');
+        }
+
+        function selectFill(opt, el) {
+            window.selectedFill = opt;
+            document.querySelectorAll('.fill-opt').forEach(b => {
+                b.classList.remove('border-amber-500', 'bg-amber-500/20', 'text-amber-300');
+            });
+            el.classList.add('border-amber-500', 'bg-amber-500/20', 'text-amber-300');
+        }
+
+        function checkMission() {
+            const locData = locationsData[gameState.currentLoc];
+            const feedbackBox = document.getElementById('feedbackBox');
+            let isCorrect = false;
+
+            if (locData.type === 'reorder') {
+                const userIds = window.currentOrder.map(i => i.id);
+                isCorrect = JSON.stringify(userIds) === JSON.stringify(locData.correctOrder);
+            } else if (locData.type === 'mcq') {
+                isCorrect = window.selectedMCQ === locData.correctIndex;
+            } else if (locData.type === 'match') {
+                let allMatch = true;
+                locData.pairs.forEach((p, idx) => {
+                    const val = document.getElementById(`match_${idx}`).value;
+                    if (val !== p.a) allMatch = false;
+                });
+                isCorrect = allMatch;
+            } else if (locData.type === 'fill') {
+                isCorrect = window.selectedFill === locData.correctAnswer;
+            }
+
+            feedbackBox.classList.remove('hidden');
 
             if (isCorrect) {
-                playSound('win');
-                showFeedback("🎉 Chính xác tuyệt đối! +" + loc.xp + " XP", "success");
-                unlockNext(gameState.currentNode, loc.xp);
+                AudioFX.playCorrect();
+                feedbackBox.className = "p-3 rounded-xl mb-4 text-sm font-semibold bg-emerald-500/20 border border-emerald-500/50 text-emerald-300";
+                feedbackBox.innerText = "🎉 CHÍNH XÁC HOÀN HẢO! Bạn nhận được +100 XP và 1 Chìa Khóa Lịch Sử 🔑";
+                document.getElementById('btnSubmitMission').classList.add('hidden');
+                document.getElementById('btnNextLocation').classList.remove('hidden');
             } else {
-                playSound('wrong');
-                showFeedback("❌ Thứ tự chưa đúng, xem gợi ý bên dưới nhé!", "error");
-                document.getElementById('hint-text').innerText = loc.hint;
-                document.getElementById('hint-box').style.display = 'block';
+                AudioFX.playIncorrect();
+                feedbackBox.className = "p-3 rounded-xl mb-4 text-sm font-semibold bg-red-500/20 border border-red-500/50 text-red-300";
+                feedbackBox.innerText = `❌ Chưa chính xác. Thử lại nhé! ${locData.hint}`;
             }
         }
 
-        function checkQuizMission(selectedIndex) {
-            const loc = locationsData[gameState.currentNode];
-            if (selectedIndex === loc.correctIndex) {
-                playSound('win');
-                showFeedback("🎉 Rất giỏi! +" + loc.xp + " XP", "success");
-                unlockNext(gameState.currentNode, loc.xp);
-            } else {
-                playSound('wrong');
-                showFeedback("❌ Chưa chính xác, thử lại xem nhé!", "error");
-                document.getElementById('hint-text').innerText = loc.hint;
-                document.getElementById('hint-box').style.display = 'block';
-            }
-        }
-
-        function unlockNext(nodeId, xpGained) {
-            const parsedId = isNaN(nodeId) ? nodeId : Number(nodeId);
-            if (!gameState.completedNodes.includes(parsedId)) {
-                gameState.completedNodes.push(parsedId);
-                gameState.xp += xpGained;
-                updateStats();
-            }
-
-            setTimeout(() => {
-                if (parsedId === 'boss') {
-                    document.getElementById('final-username').innerText = gameState.username;
-                    document.getElementById('final-xp').innerText = gameState.xp;
-                    showScreen('screen-boss-result');
-                } else {
-                    showScreen('screen-map');
+        function finishLocation() {
+            if (!gameState.completedLocs.includes(gameState.currentLoc)) {
+                gameState.completedLocs.push(gameState.currentLoc);
+                gameState.xp += 100;
+                gameState.keys += 1;
+                if (gameState.unlockedLoc < 4) {
+                    gameState.unlockedLoc += 1;
                 }
-            }, 1200);
+            }
+            updateUI();
+            showScreen('screenMap');
         }
 
-        function resetGame() {
-            gameState.xp = 0; gameState.completedNodes = [];
-            updateStats(); showScreen('screen-login');
+        function openBossChallenge() {
+            if (gameState.keys < 4) {
+                AudioFX.playIncorrect();
+                alert("🔒 Bạn cần hoàn thành đủ 4 địa điểm và thu thập đủ 4 chìa khóa để mở BOSS CHALLENGE!");
+                return;
+            }
+
+            gameState.currentLoc = 5;
+            openLocation(5);
+        }
+
+        function restartGame() {
+            gameState = {
+                name: 'Nam',
+                avatar: '👦',
+                xp: 0,
+                keys: 0,
+                currentLoc: 1,
+                unlockedLoc: 1,
+                completedLocs: []
+            };
+            document.getElementById('statusBar').classList.add('hidden');
+            showScreen('screenWelcome');
         }
     </script>
 </body>
